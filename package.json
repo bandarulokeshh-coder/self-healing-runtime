@@ -1,0 +1,79 @@
+{
+  "name": "self-healing-runtime",
+  "version": "1.0.0",
+  "description": "Production-ready self-healing error boundaries with AI-powered diagnosis and automatic state recovery",
+  "type": "module",
+  "main": "./dist-lib/index.js",
+  "module": "./dist-lib/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist-lib/index.mjs",
+      "require": "./dist-lib/index.js"
+    }
+  },
+  "files": [
+    "dist-lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "react",
+    "error-boundary",
+    "self-healing",
+    "error-recovery",
+    "ai-diagnosis",
+    "state-management",
+    "crash-recovery",
+    "frontend",
+    "resilience",
+    "shopify",
+    "ecommerce"
+  ],
+  "author": "Lokes <lokes@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bandarulokeshh-coder/self-healing-runtime.git"
+  },
+  "homepage": "https://github.com/bandarulokeshh-coder/self-healing-runtime#readme",
+  "bugs": {
+    "url": "https://github.com/bandarulokeshh-coder/self-healing-runtime/issues"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:lib": "tsc -b && vite build --config vite.config.lib.ts",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:dev": "playwright test --headed"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.6.1",
+    "immer": "^11.1.21",
+    "postcss": "^8.5.29",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-hot-toast": "^2.6.1",
+    "tailwindcss": "^4.3.3",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@playwright/test": "^1.45.0",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vitest": "^2.0.5",
+    "vite": "^8.3.0",
+    "terser": "^5.36.0"
+  }
+}
