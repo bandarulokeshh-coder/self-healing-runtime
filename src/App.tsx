@@ -52,11 +52,7 @@ function App() {
       {/* New: Live Metrics Dashboard */}
       <MetricsDashboard />
 
-      {/* New: AI Diagnosis Panel */}
-      <AIDiagnosisPanel
-        errorClass={lastError?.errorClass}
-        errorMessage={lastError?.message}
-      />
+      {/* AI Diagnosis Panel disabled for cleaner demo */}
 
       <div className="dashboard-shell min-h-screen">
         <header className="dashboard-topbar">
