@@ -1,0 +1,129 @@
+import { useEffect } from 'react'
+import { useSnapshotStore } from '../core/SnapshotManager'
+
+const initialFormData = {
+  name: 'Jane Doe',
+  email: 'jane@example.com',
+  address: '123 Main Street',
+  phone: '+1 (555) 123-4567',
+  message: ''
+}
+
+type FormFieldId = keyof typeof initialFormData
+
+interface FormField {
+  id: FormFieldId
+  label: string
+  type: string
+  placeholder?: string
+  required?: boolean
+  wide?: boolean
+}
+
+const formFields: FormField[] = [
+  { id: 'name', label: 'Full name', type: 'text', required: true },
+  { id: 'email', label: 'Email address', type: 'email', required: true },
+  { id: 'address', label: 'Billing address', type: 'text', required: true, wide: true },
+  { id: 'phone', label: 'Phone number', type: 'tel', required: true },
+  { id: 'message', label: 'Order notes', type: 'text', placeholder: 'Add a note for the seller', wide: true }
+]
+
+const DemoForm = () => {
+  const formData = useSnapshotStore((state) => state.form)
+  const { restoreFromSnapshot, addRecoveryLog, updateForm } = useSnapshotStore()
+
+  useEffect(() => {
+    updateForm(initialFormData)
+  }, [updateForm])
+
+  const handleInputChange = (field: FormFieldId, value: string) => {
+    updateForm({ [field]: value })
+  }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    addRecoveryLog({
+      type: 'success',
+      message: 'Demo checkout submitted successfully'
+    })
+  }
+
+  const handleRecover = () => {
+    restoreFromSnapshot()
+  }
+
+  return (
+    <section className="dashboard-card checkout-card" aria-labelledby="checkout-heading">
+      <div className="component-heading">
+        <div className="component-heading-copy">
+          <span className="component-icon component-icon-violet" aria-hidden="true">▤</span>
+          <div>
+            <h3 id="checkout-heading">Checkout form</h3>
+            <p>Edit a field to create a recovery checkpoint.</p>
+          </div>
+        </div>
+        <span className="component-tag">DEMO ORDER</span>
+      </div>
+
+      <form onSubmit={handleSubmit} className="checkout-form">
+        <div className="demo-form-grid">
+          {formFields.map((field) => (
+            <div key={field.id} className={`demo-field ${field.wide ? 'demo-field-wide' : ''}`}>
+              <label htmlFor={`checkout-${field.id}`} className="demo-field-label">
+                {field.label}
+                {field.required && <span className="required-mark" aria-label="required"> *</span>}
+              </label>
+              {field.id === 'message' ? (
+                <textarea
+                  id={`checkout-${field.id}`}
+                  className="demo-input demo-textarea"
+                  placeholder={field.placeholder}
+                  value={formData[field.id]}
+                  onChange={(event) => handleInputChange(field.id, event.target.value)}
+                  rows={2}
+                />
+              ) : (
+                <input
+                  id={`checkout-${field.id}`}
+                  className="demo-input"
+                  type={field.type}
+                  autoComplete={field.id === 'name' ? 'name' : field.id === 'email' ? 'email' : field.id === 'address' ? 'street-address' : 'tel'}
+                  placeholder={field.placeholder}
+                  required={field.required}
+                  value={formData[field.id]}
+                  onChange={(event) => handleInputChange(field.id, event.target.value)}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="payment-preview">
+          <span className="payment-preview-icon" aria-hidden="true">✓</span>
+          <div>
+            <strong>Payment details stay out of the demo</strong>
+            <p>No real card data is requested or included in checkpoints.</p>
+          </div>
+          <span className="payment-preview-label">SAFE DEMO</span>
+        </div>
+
+        <div className="checkout-summary">
+          <div className="checkout-total">
+            <span>Demo order total</span>
+            <strong>$450.00</strong>
+          </div>
+          <div className="checkout-actions">
+            <button type="button" onClick={handleRecover} className="action-secondary">
+              <span aria-hidden="true">↺</span> Restore checkpoint
+            </button>
+            <button type="submit" className="action-primary">
+              Submit demo order <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+  )
+}
+
+export { DemoForm }

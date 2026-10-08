@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "node": "v26.7.0",
+    "platform": "win32",
+    "date": "2026-10-08T01:16:54.094Z"
+  },
+  "sizes": [
+    {
+      "stateBytes": 934,
+      "canonicalBytes": 934,
+      "snapshot": {
+        "name": "snapshot(JSON deep copy) @ 934B",
+        "ops": 30,
+        "meanNs": 40327,
+        "medianNs": 8200,
+        "p95Ns": 21200,
+        "opsPerSec": 24797
+      },
+      "restore": {
+        "name": "restore(JSON deep copy) @ 934B",
+        "ops": 30,
+        "meanNs": 5757,
+        "medianNs": 5400,
+        "p95Ns": 7700,
+        "opsPerSec": 173712
+      },
+      "hash": {
+        "name": "certificate hash (canonical+djb2) @ 934B",
+        "ops": 30,
+        "meanNs": 41693,
+        "medianNs": 23600,
+        "p95Ns": 123400,
+        "opsPerSec": 23985
+      }
+    },
+    {
+      "stateBytes": 9935,
+      "canonicalBytes": 9935,
+      "snapshot": {
+        "name": "snapshot(JSON deep copy) @ 9935B",
+        "ops": 30,
+        "meanNs": 20827,
+        "medianNs": 16500,
+        "p95Ns": 28300,
+        "opsPerSec": 48015
+      },
+      "restore": {
+        "name": "restore(JSON deep copy) @ 9935B",
+        "ops": 30,
+        "meanNs": 28933,
+        "medianNs": 9200,
+        "p95Ns": 27400,
+        "opsPerSec": 34562
+      },
+      "hash": {
+        "name": "certificate hash (canonical+djb2) @ 9935B",
+        "ops": 30,
+        "meanNs": 82010,
+        "medianNs": 69700,
+        "p95Ns": 148300,
+        "opsPerSec": 12194
+      }
+    },
+    {
+      "stateBytes": 99936,
+      "canonicalBytes": 99936,
+      "snapshot": {
+        "name": "snapshot(JSON deep copy) @ 99936B",
+        "ops": 30,
+        "meanNs": 192063,
+        "medianNs": 160000,
+        "p95Ns": 414100,
+        "opsPerSec": 5207
+      },
+      "restore": {
+        "name": "restore(JSON deep copy) @ 99936B",
+        "ops": 30,
+        "meanNs": 184047,
+        "medianNs": 163600,
+        "p95Ns": 394800,
+        "opsPerSec": 5433
+      },
+      "hash": {
+        "name": "certificate hash (canonical+djb2) @ 99936B",
+        "ops": 30,
+        "meanNs": 592360,
+        "medianNs": 594500,
+        "p95Ns": 1060900,
+        "opsPerSec": 1688
+      }
+    },
+    {
+      "stateBytes": 999937,
+      "canonicalBytes": 999937,
+      "snapshot": {
+        "name": "snapshot(JSON deep copy) @ 999937B",
+        "ops": 30,
+        "meanNs": 1828713,
+        "medianNs": 1808100,
+        "p95Ns": 2506400,
+        "opsPerSec": 547
+      },
+      "restore": {
+        "name": "restore(JSON deep copy) @ 999937B",
+        "ops": 30,
+        "meanNs": 1331413,
+        "medianNs": 1271900,
+        "p95Ns": 1692800,
+        "opsPerSec": 751
+      },
+      "hash": {
+        "name": "certificate hash (canonical+djb2) @ 999937B",
+        "ops": 30,
+        "meanNs": 3736153,
+        "medianNs": 3865300,
+        "p95Ns": 4822300,
+        "opsPerSec": 268
+      }
+    },
+    {
+      "stateBytes": 4999938,
+      "canonicalBytes": 4999938,
+      "snapshot": {
+        "name": "snapshot(JSON deep copy) @ 4999938B",
+        "ops": 30,
+        "meanNs": 6294933,
+        "medianNs": 6094900,
+        "p95Ns": 8917500,
+        "opsPerSec": 159
+      },
+      "restore": {
+        "name": "restore(JSON deep copy) @ 4999938B",
+        "ops": 30,
+        "meanNs": 6114133,
+        "medianNs": 5911300,
+        "p95Ns": 8266600,
+        "opsPerSec": 164
+      },
+      "hash": {
+        "name": "certificate hash (canonical+djb2) @ 4999938B",
+        "ops": 30,
+        "meanNs": 15469703,
+        "medianNs": 15126700,
+        "p95Ns": 18803400,
+        "opsPerSec": 65
+      }
+    }
+  ],
+  "ring": {
+    "name": "ring push/shift @ 100KB state",
+    "ops": 200,
+    "meanNs": 278962,
+    "medianNs": 236100,
+    "p95Ns": 432700,
+    "opsPerSec": 3585
+  },
+  "detection": {
+    "name": "detection: window error dispatch (1 listener)",
+    "ops": 30,
+    "meanNs": 803,
+    "medianNs": 300,
+    "p95Ns": 3300,
+    "opsPerSec": 1244813
+  },
+  "memory": {
+    "states": 50,
+    "bytesPerState": 100000,
+    "heapDeltaBytes": 13145672,
+    "ringLength": 50
+  },
+  "linearFit": {
+    "slopeNsPerByte": 1.208871549433355,
+    "rSquared": 0.9903092840752493
+  },
+  "overhead": {
+    "snapshotIntervalMs": 2000,
+    "typicalStateBytes": 99936,
+    "snapshotMedianNs": 160000,
+    "fractionOfInterval": 0.00008,
+    "percentOfMainThreadPerCycle": 0.008
+  }
+}

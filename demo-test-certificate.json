@@ -1,0 +1,20 @@
+{
+  "id": "demo-cert-001",
+  "issuedAt": "2026-10-08T00:53:53.000Z",
+  "errorClass": "RENDER_CRASH",
+  "errorMessage": "Simulated React component crash",
+  "preStateHash": "a3f2b9c1",
+  "postStateHash": "d4e5f6a7",
+  "snapshotId": "snap-123",
+  "snapshotTimestamp": 1728349433000,
+  "lossWindowMs": 1847,
+  "recoveryDurationMs": 4.2,
+  "invariants": [
+    {"name": "TYPE_INTEGRITY", "passed": true},
+    {"name": "EMAIL_FORMAT", "passed": true},
+    {"name": "SCHEMA_KEYS", "passed": true},
+    {"name": "CONTROL_CHARS", "passed": true}
+  ],
+  "verified": true,
+  "certificateHash": "test-hash"
+}
