@@ -7,59 +7,74 @@ type MetricHandler = (metric: WebVitalMetric) => void
 
 const getCLS: (onReport: MetricHandler) => () => void = (onReport) => {
   let clsValue = 0
-  const observer = new PerformanceObserver((list) => {
-    for (const entry of list.getEntries()) {
-      const shiftEntry = entry as any
-      if (!shiftEntry.hadRecentInput) {
-        clsValue += shiftEntry.value
-        onReport({
-          name: 'CLS',
-          value: clsValue,
-          delta: shiftEntry.value,
-          id: shiftEntry.entryType + '-' + Date.now(),
-          entries: [shiftEntry],
-          startTime: shiftEntry.startTime
-        })
+  try {
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        const shiftEntry = entry as any
+        if (!shiftEntry.hadRecentInput) {
+          clsValue += shiftEntry.value
+          onReport({
+            name: 'CLS',
+            value: clsValue,
+            delta: shiftEntry.value,
+            id: shiftEntry.entryType + '-' + Date.now(),
+            entries: [shiftEntry],
+            startTime: shiftEntry.startTime
+          })
+        }
       }
-    }
-  })
-  observer.observe({ entryTypes: ['layout-shift'] })
-  return () => observer.disconnect()
+    })
+    observer.observe({ type: 'layout-shift', buffered: true })
+    return () => observer.disconnect()
+  } catch (e) {
+    // PerformanceObserver not supported
+    return () => {}
+  }
 }
 
 const getFID: (onReport: MetricHandler) => () => void = (onReport) => {
-  const observer = new PerformanceObserver((list) => {
-    for (const entry of list.getEntries()) {
-      const eventEntry = entry as any
-      onReport({
-        name: 'FID',
-        value: eventEntry.processingStart - eventEntry.startTime,
-        delta: eventEntry.processingStart - eventEntry.startTime,
-        id: eventEntry.entryType + '-' + Date.now(),
-        entries: [eventEntry],
-        startTime: eventEntry.startTime
-      })
-    }
-  })
-  observer.observe({ entryTypes: ['first-input'] })
-  return () => observer.disconnect()
+  try {
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        const eventEntry = entry as any
+        onReport({
+          name: 'FID',
+          value: eventEntry.processingStart - eventEntry.startTime,
+          delta: eventEntry.processingStart - eventEntry.startTime,
+          id: eventEntry.entryType + '-' + Date.now(),
+          entries: [eventEntry],
+          startTime: eventEntry.startTime
+        })
+      }
+    })
+    observer.observe({ type: 'first-input', buffered: true })
+    return () => observer.disconnect()
+  } catch (e) {
+    // PerformanceObserver not supported
+    return () => {}
+  }
 }
 
 const getLCP: (onReport: MetricHandler) => () => void = (onReport) => {
-  const observer = new PerformanceObserver((list) => {
-    for (const entry of list.getEntries()) {
-      onReport({
-        name: 'LCP',
-        value: entry.startTime,
-        delta: entry.startTime,
-        id: entry.entryType + '-' + Date.now(),
-        entries: [entry],
-        startTime: entry.startTime
-      })
-    }
-  })
-  observer.observe({ entryTypes: ['largest-contentful-paint'] })
-  return () => observer.disconnect()
+  try {
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        onReport({
+          name: 'LCP',
+          value: entry.startTime,
+          delta: entry.startTime,
+          id: entry.entryType + '-' + Date.now(),
+          entries: [entry],
+          startTime: entry.startTime
+        })
+      }
+    })
+    observer.observe({ type: 'largest-contentful-paint', buffered: true })
+    return () => observer.disconnect()
+  } catch (e) {
+    // PerformanceObserver not supported
+    return () => {}
+  }
 }
 
 const VITALS_THRESHOLDS = {
@@ -111,56 +126,72 @@ let vitalsReadInterval: ReturnType<typeof setInterval> | null = null
 const sampleVitalsOnce = () => {
   const store = useWebVitalsStore.getState()
 
-  const navEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[]
-  const nav = navEntries[0]
-  if (nav) {
-    store.recordVital('ttfb', {
-      name: 'TTFB',
-      value: nav.responseStart,
-      delta: nav.responseStart,
-      id: 'nav-' + nav.startTime,
-      entries: [nav],
-      startTime: nav.startTime
-    })
+  try {
+    const navEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[]
+    const nav = navEntries[0]
+    if (nav) {
+      store.recordVital('ttfb', {
+        name: 'TTFB',
+        value: nav.responseStart,
+        delta: nav.responseStart,
+        id: 'nav-' + nav.startTime,
+        entries: [nav],
+        startTime: nav.startTime
+      })
+    }
+  } catch (e) {
+    // Navigation timing not available
   }
 
-  const lcpEntries = performance.getEntriesByType('largest-contentful-paint')
-  const lcpEntry = lcpEntries[lcpEntries.length - 1]
-  if (lcpEntry) {
-    store.recordVital('lcp', {
-      name: 'LCP',
-      value: lcpEntry.startTime,
-      delta: lcpEntry.startTime,
-      id: 'lcp-' + lcpEntry.startTime,
-      entries: [lcpEntry],
-      startTime: lcpEntry.startTime
-    })
+  try {
+    const lcpEntries = performance.getEntriesByType('largest-contentful-paint')
+    const lcpEntry = lcpEntries[lcpEntries.length - 1]
+    if (lcpEntry) {
+      store.recordVital('lcp', {
+        name: 'LCP',
+        value: lcpEntry.startTime,
+        delta: lcpEntry.startTime,
+        id: 'lcp-' + lcpEntry.startTime,
+        entries: [lcpEntry],
+        startTime: lcpEntry.startTime
+      })
+    }
+  } catch (e) {
+    // LCP not available
   }
 
-  const fidEntries = performance.getEntriesByType('first-input') as any[]
-  const fidEntry = fidEntries[fidEntries.length - 1]
-  if (fidEntry) {
-    store.recordVital('fid', {
-      name: 'FID',
-      value: fidEntry.processingStart - fidEntry.startTime,
-      delta: fidEntry.processingStart - fidEntry.startTime,
-      id: 'fid-' + fidEntry.startTime,
-      entries: [fidEntry],
-      startTime: fidEntry.startTime
-    })
+  try {
+    const fidEntries = performance.getEntriesByType('first-input') as any[]
+    const fidEntry = fidEntries[fidEntries.length - 1]
+    if (fidEntry) {
+      store.recordVital('fid', {
+        name: 'FID',
+        value: fidEntry.processingStart - fidEntry.startTime,
+        delta: fidEntry.processingStart - fidEntry.startTime,
+        id: 'fid-' + fidEntry.startTime,
+        entries: [fidEntry],
+        startTime: fidEntry.startTime
+      })
+    }
+  } catch (e) {
+    // FID not available (deprecated in some browsers)
   }
 
-  const shifts = (performance.getEntriesByType('layout-shift') as any[]).filter((e) => !e.hadRecentInput)
-  if (shifts.length > 0) {
-    const clsValue = shifts.reduce((sum, e) => sum + e.value, 0)
-    store.recordVital('cls', {
-      name: 'CLS',
-      value: clsValue,
-      delta: shifts[shifts.length - 1].value,
-      id: 'cls-' + Date.now(),
-      entries: shifts,
-      startTime: shifts[shifts.length - 1].startTime
-    })
+  try {
+    const shifts = (performance.getEntriesByType('layout-shift') as any[]).filter((e) => !e.hadRecentInput)
+    if (shifts.length > 0) {
+      const clsValue = shifts.reduce((sum, e) => sum + e.value, 0)
+      store.recordVital('cls', {
+        name: 'CLS',
+        value: clsValue,
+        delta: shifts[shifts.length - 1].value,
+        id: 'cls-' + Date.now(),
+        entries: shifts,
+        startTime: shifts[shifts.length - 1].startTime
+      })
+    }
+  } catch (e) {
+    // CLS not available
   }
 }
 
