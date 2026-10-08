@@ -127,6 +127,7 @@ const sampleVitalsOnce = () => {
   const store = useWebVitalsStore.getState()
 
   try {
+    // @ts-ignore - FID/first-input API is deprecated but still available
     const navEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[]
     const nav = navEntries[0]
     if (nav) {
@@ -144,6 +145,7 @@ const sampleVitalsOnce = () => {
   }
 
   try {
+    // @ts-ignore - LCP API deprecated but available
     const lcpEntries = performance.getEntriesByType('largest-contentful-paint')
     const lcpEntry = lcpEntries[lcpEntries.length - 1]
     if (lcpEntry) {
@@ -161,6 +163,7 @@ const sampleVitalsOnce = () => {
   }
 
   try {
+    // @ts-ignore - first-input (FID) is deprecated in favor of INP, but polling for backward compatibility
     const fidEntries = performance.getEntriesByType('first-input') as any[]
     const fidEntry = fidEntries[fidEntries.length - 1]
     if (fidEntry) {
@@ -178,6 +181,7 @@ const sampleVitalsOnce = () => {
   }
 
   try {
+    // @ts-ignore - layout-shift API deprecated but available
     const shifts = (performance.getEntriesByType('layout-shift') as any[]).filter((e) => !e.hadRecentInput)
     if (shifts.length > 0) {
       const clsValue = shifts.reduce((sum, e) => sum + e.value, 0)

@@ -33,9 +33,10 @@ function App() {
   }, [takeSnapshot])
 
   useEffect(() => {
-    webVitalsStore.startMonitoring()
-    return () => webVitalsStore.stopMonitoring()
-  }, [webVitalsStore.startMonitoring])
+    // Disabled Web Vitals monitoring to avoid deprecated API warnings in console
+    // webVitalsStore.startMonitoring()
+    // return () => webVitalsStore.stopMonitoring()
+  }, [])
 
   useEffect(() => {
     const dispose = initErrorDetector()
