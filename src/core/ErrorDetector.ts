@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { useRecoveryStore } from './RecoveryStore'
 
 export type ErrorClass =
   | 'RENDER_CRASH'
@@ -63,6 +64,14 @@ export const useDetectorStore = create<DetectorState>((set, get) => ({
     // first error wins until the boundary is cleared (stable class on screen)
     if (get().activeError) return
     const detected: DetectedError = { ...e, id: genId(), at: Date.now() }
+
+    // Update RecoveryStore with last error for AI diagnosis
+    useRecoveryStore.getState().setLastError({
+      errorClass: detected.errorClass,
+      message: detected.message,
+      timestamp: detected.at
+    })
+
     set((state) => ({
       activeError: detected,
       errorHistory: [...state.errorHistory.slice(-99), detected]

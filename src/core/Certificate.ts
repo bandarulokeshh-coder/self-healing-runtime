@@ -19,6 +19,7 @@ export interface RecoveryCertificate {
   snapshotTimestamp: number
   lossWindowMs: number
   recoveryDurationMs: number
+  restoreDurationMs?: number // Alias for recoveryDurationMs
   invariants: InvariantResult[]
   verified: boolean
   certificateHash: string

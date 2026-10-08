@@ -11,13 +11,15 @@ import { MultiTabMonitor } from './components/MultiTabMonitor'
 import { RealWorldDemos } from './components/RealWorldDemos'
 import { CertificatePanel } from './components/CertificatePanel'
 import { MultiTabRecovery } from './components/MultiTabRecovery'
+import { MetricsDashboard } from './components/MetricsDashboard'
+import { AIDiagnosisPanel } from './components/AIDiagnosisPanel'
 import { DemoForm } from './demo/DemoForm'
 import { ErrorButtons } from './demo/ErrorButtons'
 
 function App() {
   const { snapshots, takeSnapshot } = useSnapshotStore()
   const eventCount = useSnapshotStore((state) => state.recoveryLogs.length)
-  const { recoveryCount, isRecovering } = useRecoveryStore()
+  const { recoveryCount, isRecovering, lastError } = useRecoveryStore()
   const webVitalsStore = useWebVitalsStore()
 
   useEffect(() => {
@@ -46,6 +48,15 @@ function App() {
         console.log('App caught error:', error, info)
       }}
     >
+      {/* New: Live Metrics Dashboard */}
+      <MetricsDashboard />
+
+      {/* New: AI Diagnosis Panel */}
+      <AIDiagnosisPanel
+        errorClass={lastError?.errorClass}
+        errorMessage={lastError?.message}
+      />
+
       <div className="dashboard-shell min-h-screen">
         <header className="dashboard-topbar">
           <div className="dashboard-topbar-inner">
