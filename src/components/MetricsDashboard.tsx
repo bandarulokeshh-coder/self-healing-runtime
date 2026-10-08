@@ -28,7 +28,7 @@ export const MetricsDashboard = () => {
   }, {} as Record<string, number>)
 
   return (
-    <div className="fixed top-20 right-6 w-80 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 z-50 backdrop-blur-sm">
+    <div className="fixed bottom-6 right-6 w-80 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 z-50 backdrop-blur-sm">
       <div className="space-y-3">
         <div className="bg-gradient-to-br from-blue-950 to-blue-900 rounded-lg p-3 border border-blue-700">
           <div className="text-xs font-semibold text-blue-300 uppercase tracking-wider mb-1">Performance Overhead</div>
